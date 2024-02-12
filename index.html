@@ -690,39 +690,47 @@
 
         function saveGameState() {
             const gameState = Array.from(document.querySelectorAll('meter')).map(meter => parseFloat(meter.value));
-            sessionStorage.setItem('gameStage', JSON.stringify(stage));
-            sessionStorage.setItem('buttonShow', JSON.stringify(buttonShow));
-            sessionStorage.setItem('gameState', JSON.stringify(gameState));
-            sessionStorage.setItem('clicked', JSON.stringify(clicked));
+            try {
+                sessionStorage.setItem('gameStage', JSON.stringify(stage));
+                sessionStorage.setItem('buttonShow', JSON.stringify(buttonShow));
+                sessionStorage.setItem('gameState', JSON.stringify(gameState));
+                sessionStorage.setItem('clicked', JSON.stringify(clicked));
+            } catch (e) {
+                console.log(e);
+            }
         }
 
         function loadGameState() {
-            const gameState = JSON.parse(sessionStorage.getItem('gameState'));
-            if (gameState) {
-                Array.from(document.querySelectorAll('meter')).forEach((meter, index) => {
-                    meter.value = gameState[index];
-                });
-            }
-            const gameStage = JSON.parse(sessionStorage.getItem('gameStage'));
-            if (gameStage) {
-                stage = gameStage;
-                changeStage(stage);
-            }
-            // console.log(stage);
-            const buttonShow_ = JSON.parse(sessionStorage.getItem('buttonShow'));
-            if (buttonShow_) {
-                document.querySelector('.nextStage').style.display = 'block';
-                buttonShow = true;
-            }
-            const clicked_ = JSON.parse(sessionStorage.getItem('clicked'));
-            if (clicked_) {
-                clicked = clicked_;
-                document.getElementById('card-back-container-' + clicked).style.display = 'block';
-                document.getElementById('resources-' + stage).style.display = 'block';
-                document.getElementById('card-image-' + clicked).style.display = 'none';
-                const otherDirection = clicked % 2 === 1 ? clicked + 1 : clicked - 1;
-                document.getElementById('card-image-' + otherDirection).style.pointerEvents = 'none';
+            try{
+                const gameState = JSON.parse(sessionStorage.getItem('gameState'));
+                if (gameState) {
+                    Array.from(document.querySelectorAll('meter')).forEach((meter, index) => {
+                        meter.value = gameState[index];
+                    });
+                }
+                const gameStage = JSON.parse(sessionStorage.getItem('gameStage'));
+                if (gameStage) {
+                    stage = gameStage;
+                    changeStage(stage);
+                }
+                // console.log(stage);
+                const buttonShow_ = JSON.parse(sessionStorage.getItem('buttonShow'));
+                if (buttonShow_) {
+                    document.querySelector('.nextStage').style.display = 'block';
+                    buttonShow = true;
+                }
+                const clicked_ = JSON.parse(sessionStorage.getItem('clicked'));
+                if (clicked_) {
+                    clicked = clicked_;
+                    document.getElementById('card-back-container-' + clicked).style.display = 'block';
+                    document.getElementById('resources-' + stage).style.display = 'block';
+                    document.getElementById('card-image-' + clicked).style.display = 'none';
+                    const otherDirection = clicked % 2 === 1 ? clicked + 1 : clicked - 1;
+                    document.getElementById('card-image-' + otherDirection).style.pointerEvents = 'none';
 
+                }
+            } catch (e) {
+                console.log(e);
             }
         }
 
@@ -731,7 +739,11 @@
             // if (!confirm('Restart?')) {
             //     return;
             // }
-            sessionStorage.clear();
+            try {
+                sessionStorage.clear();
+            } catch (e) {
+                console.log(e);
+            }
             location.reload();
         }
 
