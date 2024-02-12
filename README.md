@@ -18,6 +18,10 @@ cd existing_repo
 git remote add origin https://git.tu-berlin.de/ydong/bec.git
 git branch -M main
 git push -uf origin main
+
+
+git remote set-url origin https://github.com/yvvvan/BEC.git
+https://yvvvan.github.io/BEC/
 ```
 
 ## Integrate with your tools
