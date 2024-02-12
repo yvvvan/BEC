@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>游戏页面</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5dc;
+    }
+    #stats {
+        background-color: #f0f0f0;
+        padding: 10px;
+        text-align: center;
+    }
+    #stats table {
+        margin: 0 auto;
+    }
+    #stats td {
+        padding: 5px 10px;
+    }
+    #game-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 70vh;
+        padding: 0 5px;
+    }
+    #stage {
+        text-align: center;
+    }
+    .choice {
+        margin: 10px;
+        cursor: pointer;
+    }
+    .button-container {
+        width: 100%;
+        text-align: center; 
+        position: absolute;
+        padding-top: 25px;
+    }
+
+    button {
+        background-color: #4CAF50;
+        width: 40%;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        position: absolute;
+        bottom: 5px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .bar-box {
+        height: 150px;
+    }
+    .stage-box {
+        text-align: center;
+        position: absolute;
+        top: 190px;
+    }
+    .text-box {
+        margin-bottom: 20px;
+        height: 80px;
+        max-width: 700px;
+        padding: 0 10px;
+        text-align: center;
+    }
+
+    .card-front-container {
+        width: 350px;
+        height: 350px;
+        text-align: center; 
+        position: absolute;
+        top: 130px;
+    }
+    .card-front-container-left {
+        /* position: relative; */
+        display: inline-block;
+        position:absolute;
+        left: 10px;
+        width: 45%;
+        max-width: 350px;
+    }
+    .card-front-container-right {
+        /* position: relative; */
+        display: inline-block;
+        position:absolute;
+        right: 10px;
+        width: 45%;
+        max-width: 350px;
+    }
+    .card-image {
+        background-color: aquamarine;
+        width: 100%;
+        height: 100%;
+        /*超过的部分隐藏*/
+        overflow: hidden;
+        /*居中图片*/
+        display: flex;
+        justify-content: center;
+    }
+    img {
+        /* width: 100%; */
+        height: 100%;
+        padding: 0;
+        margin: 0!important;
+    }
+    .card-back-container {
+        transform: translate(-50%, -50%);
+        /* 在当前div中居中显示文本 */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: none; 
+        /*浅棕色*/
+        background-color: #f4f4f4;
+        width: 100%;
+        height: 100%;
+    }
+    .choice-text {
+        /* 在当前div的底部 */
+        position: absolute;
+        bottom: 0;
+        padding: 0 5px;
+        /* 两端对齐 */
+        text-align: justify;
+        font-size: 15px;
+        /*背景 灰色半透明*/
+        background-color: rgba(255, 255, 255, 0.8);
+        /*加粗*/
+        font-weight: bold;
+    }
+    .result-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 25px;
+        font-size: 14px;
+    }
+    .result-table {
+        margin-top: 20% !important;
+        font-size: 15px;
+        font-weight: bold;
+        margin: 0 auto;
+        align-items: center;
+    }
+</style>
+</head>
+<body>
+<div id="stats">
+    <table class="bar-box">
+        <tr>
+            <!-- <td>Wealth:</td> -->
+            <td>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-premium-rights" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                    <path d="M13.867 9.75c-.246 -.48 -.708 -.769 -1.2 -.75h-1.334c-.736 0 -1.333 .67 -1.333 1.5c0 .827 .597 1.499 1.333 1.499h1.334c.736 0 1.333 .671 1.333 1.5c0 .828 -.597 1.499 -1.333 1.499h-1.334c-.492 .019 -.954 -.27 -1.2 -.75" />
+                    <path d="M12 7v2" />
+                    <path d="M12 15v2" />
+                </svg>
+            </td>
+            <td><meter id="wealth-meter" min="0" max="100" value="50" low="20" high="30" optimum="100"></meter></td>
+            <td><span id="wealth-value">50</span></td>
+        </tr>
+        <tr>
+            <!-- <td>Reputation:</td> -->
+            <td>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users-group" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                    <path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1" />
+                    <path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                    <path d="M17 10h2a2 2 0 0 1 2 2v1" />
+                    <path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                    <path d="M3 13v-1a2 2 0 0 1 2 -2h2" />
+                </svg>
+            </td>
+            <td><meter id="reputation-meter" min="0" max="100" value="50" low="20" high="30" optimum="100"></meter></td>
+            <td><span id="reputation-value">50</span></td>
+        </tr>
+        <tr>
+            <!-- <td>Ethics:</td> -->
+            <td>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-scale" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M7 20l10 0" />
+                    <path d="M6 6l6 -1l6 1" />
+                    <path d="M12 3l0 17" />
+                    <path d="M9 12l-3 -6l-3 6a3 3 0 0 0 6 0" />
+                    <path d="M21 12l-3 -6l-3 6a3 3 0 0 0 6 0" />
+                </svg>
+            </td>
+            <td><meter id="ethics-meter" min="0" max="100" value="50" low="20" high="30" optimum="100"></meter></td>
+            <td><span id="ethics-value">50</span></td>
+        </tr>
+    </table>
+</div>
+
+<div id="game-container">
+    <div id="stage-1" class="stage-box">
+        <div class="text-box">
+            <p> The company is developing an AI for autonomous driving. 
+                In the early promotion, the CEO emphasized Full Self-Driving capability as part of the feature set. 
+                But during the testing phase, it was found that this AI performs poorly.
+            </p>
+        </div>
+        <div class="big-card-container">
+            <div class="card-front-container card-front-container-left">
+                <div class="card-image" id="card-image-11" onclick="makeChoice(11, this)">
+                    <img class="choice" src="image/1.png" alt="Left-1">
+                    <p class="choice-text">
+                        Continuing to roll out the AI, and claiming to have Full Self-Driving capability, 
+                        but quietly enhancing its abilities in subsequent update versions.
+                    </p>
+                </div>
+                <div class="card-back-container" id="card-back-container-11">
+                    
+                    <table class="result-table">
+                        <tr>
+                            <td>Wealth  &nbsp</td>
+                            <td><span style="color: green;">↑↑</span> </td>
+                        </tr>
+                        <tr>
+                            <td> Reputation  &nbsp </td>
+                            <td><span style="color: rgb(123, 123, 25);"> -</span> </td>
+                        </tr>
+                        <tr>
+                            <td> Ethics  &nbsp</td>
+                            <td><span style="color: red;">  ↓ </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <p class="result-text">
+                        Your publicity has given you an advantage in the industry. <br/><br/>
+                        The public sees you as a technological pioneer, 
+                        although some users feel that your features fall short of expectations.
+                    </p>
+                </div>
+            </div>
+            <div class="card-front-container card-front-container-right">
+                <div class="card-image" id="card-image-12" onclick="makeChoice(12, this)">
+                    <img class="choice" src="image/2.png" alt="Right-1">
+                    <p class="choice-text">
+                        Delaying the release, doing more testing and development,
+                        and adjusting the marketing to focus on assistant features like Autopilot.
+                    </p>
+                </div>
+                <div class="card-back-container" id="card-back-container-12">
+                    <table class="result-table">
+                        <tr>
+                            <td>Wealth  &nbsp</td>
+                            <td><span style="color: red;">↓</span> </td>
+                        </tr>
+                        <tr>
+                            <td> Reputation  &nbsp </td>
+                            <td><span style="color: red;">↓</span> </td>
+                        </tr>
+                        <tr>
+                            <td> Ethics  &nbsp</td>
+                            <td><span style="color: green;">  ↑ </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <p class="result-text">
+                        Public enthusiasm for purchasing has waned. <br/><br/>
+                        Postponements in release and reduction in features have diminished public approval.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="stage-2" class="stage-box">
+        <div class="text-box">
+            <p>2 你是一个年轻的商人，你的生意正处于关键时刻。你的合作伙伴提出了一个新的商业计划，但这个计划可能会对你的声誉和道德产生负面影响。你会选择什么？</p>
+        </div>
+        <div class="choice-box">
+            <img class="choice" src="left.jpg" onclick="makeChoice(11)" alt="Left-1">
+            <img class="choice" src="right.jpg" onclick="makeChoice(12)" alt="Right-1">
+        </div>
+    </div>
+</div>
+
+<div id="button-container">
+    <button onclick="nextStage()" class="nextStage" style="bottom: 60px; display: none;">Next</button>
+    <button onclick="restart()" class="restartbutton">Restart</button>
+</div>
+
+
+<script>
+
+    stage = 1;
+    totalStages = 10;
+    buttonShow = false; 
+    clicked = 0;
+
+    // hide value
+    document.getElementById('wealth-value').style.display = 'none';
+    document.getElementById('reputation-value').style.display = 'none';
+    document.getElementById('ethics-value').style.display = 'none';
+
+    function updateStats(x, y, z) {
+        const stats = {
+            wealth: { meter: document.getElementById('wealth-meter'), value: document.getElementById('wealth-value') },
+            reputation: { meter: document.getElementById('reputation-meter'), value: document.getElementById('reputation-value') },
+            ethics: { meter: document.getElementById('ethics-meter'), value: document.getElementById('ethics-value') }
+        };
+
+        const changes = [x, y, z];
+
+        Object.keys(stats).forEach(key => {
+            const meter = stats[key].meter;
+            const value = stats[key].value;
+            const newValue = Math.min(Math.max(parseFloat(meter.value) + changes.shift(), 0), 100);
+
+            meter.value = newValue;
+            value.innerText = newValue;
+        });
+
+        // stage += 1;
+        // changeStage(stage);
+        buttonShow = true;
+        document.querySelector('.nextStage').style.display = 'block';
+        saveGameState();
+    }
+
+    function changeStage(stage) {
+        for (let i = 1; i <= totalStages; i++) {
+            if (document.getElementById('stage-' + i)) {
+                if (i === stage) {
+                    document.getElementById('stage-' + i).style.display = 'block';
+                    // console.log('stage-' + i + ' is displayed');
+                } else {
+                    document.getElementById('stage-' + i).style.display = 'none';
+                    // console.log('stage-' + i + ' is hidden');
+                }
+            }
+        }
+    }
+
+    function nextStage() {
+        stage += 1;
+        changeStage(stage);
+        buttonShow = false;
+        document.querySelector('.nextStage').style.display = 'none';
+        saveGameState();
+    }
+
+    function makeChoice(direction, element) {
+        clicked = direction;
+        element.style.transform = 'rotateY(180deg)';
+        // hide image, show text
+        document.getElementById('card-back-container-' + direction).style.display = 'block';
+        document.getElementById('card-image-' + direction).style.display = 'none';
+        // disable other choice
+        const otherDirection =  direction % 2 === 1 ? direction + 1 : direction - 1 ;
+        document.getElementById('card-image-' + otherDirection).style.pointerEvents = 'none';
+        
+        switch (direction) {
+            case 11:
+                updateStats(10, 0, -5);
+                break;
+            case 12:
+                updateStats(-5, -5, 5);
+                break;
+            case 21:
+                updateStats(5, -5, 5);
+                break;
+            case 22:
+                updateStats(-5, 5, -5);
+                break;
+            default:
+                break;
+        }
+    }
+
+    function saveGameState() {
+        const gameState = Array.from(document.querySelectorAll('meter')).map(meter => parseFloat(meter.value));
+        localStorage.setItem('gameStage', JSON.stringify(stage));
+        localStorage.setItem('buttonShow', JSON.stringify(buttonShow));
+        localStorage.setItem('gameState', JSON.stringify(gameState));
+        localStorage.setItem('clicked', JSON.stringify(clicked));
+    }
+
+    function loadGameState() {
+        const gameState = JSON.parse(localStorage.getItem('gameState'));
+        if (gameState) {
+            Array.from(document.querySelectorAll('meter')).forEach((meter, index) => {
+                meter.value = gameState[index];
+            });
+        }
+        const gameStage = JSON.parse(localStorage.getItem('gameStage'));
+        if (gameStage) {
+            stage = gameStage;
+        }
+        // console.log(stage);
+        const buttonShow_ = JSON.parse(localStorage.getItem('buttonShow'));
+        if (buttonShow_) {
+            document.querySelector('.nextStage').style.display = 'block';
+            buttonShow = true;
+        }
+        const clicked_ = JSON.parse(localStorage.getItem('clicked'));
+        if (clicked_) {
+            clicked = clicked_;
+            document.getElementById('card-back-container-' + clicked).style.display = 'block';
+            document.getElementById('card-image-' + clicked).style.display = 'none';
+            const otherDirection = clicked % 2 === 1 ? clicked + 1 : clicked -1 ;
+            document.getElementById('card-image-' + otherDirection).style.pointerEvents = 'none';
+        }
+    }
+
+    function restart() {
+        // if (!confirm('Restart?')) {
+        //     return;
+        // }
+        localStorage.clear();
+        location.reload();
+    }
+
+    loadGameState();
+    changeStage(stage);
+    saveGameState();
+    
+</script>
+</body>
+</html>

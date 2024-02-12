@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethics Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5dc;
+        }
+
+        #stats {
+            background-color: #f0f0f0;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #stats table {
+            margin: 0 auto;
+        }
+
+        #stats td {
+            padding: 5px 10px;
+        }
+
+        .game-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+            padding: 0 5px;
+        }
+
+        .choice {
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        .button-container {
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            padding-top: 25px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            width: 40%;
+            height: 30px;
+            border: none;
+            color: white;
+            padding: 0 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .bar-box {
+            height: 150px;
+        }
+
+        .stage-box {
+            text-align: center;
+            position: absolute;
+            top: 160px;
+        }
+
+        .text-box {
+            margin-bottom: 20px;
+            height: 80px;
+            max-width: 700px;
+            padding: 0 10px;
+            text-align: center;
+        }
+
+        .card-front-container {
+            width: 350px;
+            height: 350px;
+            text-align: center;
+            position: absolute;
+            top: 150px;
+        }
+
+        .card-front-container-left {
+            /* position: relative; */
+            display: inline-block;
+            position: absolute;
+            left: 10px;
+            width: 45%;
+            max-width: 350px;
+        }
+
+        .card-front-container-right {
+            /* position: relative; */
+            display: inline-block;
+            position: absolute;
+            right: 10px;
+            width: 45%;
+            max-width: 350px;
+        }
+
+        .card-image {
+            background-color: aquamarine;
+            width: 100%;
+            height: 100%;
+            /*超过的部分隐藏*/
+            overflow: hidden;
+            /*居中图片*/
+            display: flex;
+            justify-content: center;
+        }
+
+        img {
+            /* width: 100%; */
+            height: 100%;
+            padding: 0;
+            margin: 0 !important;
+        }
+
+        .card-back-container {
+            transform: translate(-50%, -50%);
+            /* 在当前div中居中显示文本 */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            display: none;
+            /*浅棕色*/
+            background-color: #f4f4f4;
+            width: 100%;
+            height: 100%;
+        }
+
+        .choice-text {
+            /* 在当前div的底部 */
+            position: absolute;
+            bottom: 0;
+            padding: 0 5px;
+            /* 两端对齐 */
+            text-align: justify;
+            font-size: 15px;
+            /*背景 灰色半透明*/
+            background-color: rgba(255, 255, 255, 0.8);
+            /*加粗*/
+            font-weight: bold;
+        }
+
+        .result-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 25px;
+            font-size: 14px;
+        }
+
+        .result-table {
+            margin-top: 20% !important;
+            font-size: 15px;
+            font-weight: bold;
+            margin: 0 auto;
+            align-items: center;
+        }
+        .end-container{
+            margin: 0 auto;
+            width: 80vw;
+            height: 70vh;
+            text-align: center;
+            padding: 25px 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="stats">
+        <table class="bar-box">
+            <tr>
+                <!-- <td>Wealth:</td> -->
+                <td>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-premium-rights"
+                        width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                        <path
+                            d="M13.867 9.75c-.246 -.48 -.708 -.769 -1.2 -.75h-1.334c-.736 0 -1.333 .67 -1.333 1.5c0 .827 .597 1.499 1.333 1.499h1.334c.736 0 1.333 .671 1.333 1.5c0 .828 -.597 1.499 -1.333 1.499h-1.334c-.492 .019 -.954 -.27 -1.2 -.75" />
+                        <path d="M12 7v2" />
+                        <path d="M12 15v2" />
+                    </svg>
+                </td>
+                <td><meter id="wealth-meter" min="0" max="100" value="50" low="20" high="30" optimum="100"></meter></td>
+                <td><span id="wealth-value">50</span></td>
+            </tr>
+            <tr>
+                <!-- <td>image:</td> -->
+                <td>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users-group" width="30"
+                        height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                        <path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1" />
+                        <path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                        <path d="M17 10h2a2 2 0 0 1 2 2v1" />
+                        <path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                        <path d="M3 13v-1a2 2 0 0 1 2 -2h2" />
+                    </svg>
+                </td>
+                <td><meter id="image-meter" min="0" max="100" value="50" low="20" high="30" optimum="100"></meter>
+                </td>
+                <td><span id="image-value">50</span></td>
+            </tr>
+            <tr>
+                <!-- <td>Ethics:</td> -->
+                <td>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-scale" width="30"
+                        height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M7 20l10 0" />
+                        <path d="M6 6l6 -1l6 1" />
+                        <path d="M12 3l0 17" />
+                        <path d="M9 12l-3 -6l-3 6a3 3 0 0 0 6 0" />
+                        <path d="M21 12l-3 -6l-3 6a3 3 0 0 0 6 0" />
+                    </svg>
+                </td>
+                <td><meter id="ethics-meter" min="0" max="100" value="50" low="20" high="30" optimum="100"></meter></td>
+                <td><span id="ethics-value">50</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="game-container" class="game-container">
+        <!-- <div id="stage-1" class="stage-box">
+            <div class="text-box">
+                <p> The company is developing an AI for autonomous driving. 
+                    In the early promotion, the CEO emphasized Full Self-Driving capability as part of the feature set. 
+                    But during the testing phase, it was found that this AI performs poorly.
+                </p>
+            </div>
+            <div class="big-card-container">
+                <div class="card-front-container card-front-container-left">
+                    <div class="card-image" id="card-image-11" onclick="makeChoice(11, this)">
+                        <img class="choice" src="image/11.png" alt="Left-1">
+                        <p class="choice-text">
+                            Continuing to roll out the AI, and claiming to have Full Self-Driving capability, 
+                            but quietly enhancing its abilities in subsequent update versions.
+                        </p>
+                    </div>
+                    <div class="card-back-container" id="card-back-container-11">
+                        
+                        <table class="result-table">
+                            <tr>
+                                <td>Wealth  &nbsp</td>
+                                <td><span style="color: green;">↑↑</span> </td>
+                            </tr>
+                            <tr>
+                                <td> image  &nbsp </td>
+                                <td><span style="color: rgb(123, 123, 25);"> -</span> </td>
+                            </tr>
+                            <tr>
+                                <td> Ethics  &nbsp</td>
+                                <td><span style="color: red;">  ↓ </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <p class="result-text">
+                            Your publicity has given you an advantage in the industry. <br/><br/>
+                            The public sees you as a technological pioneer, 
+                            although some users feel that your features fall short of expectations.
+                        </p>
+                    </div>
+                </div>
+                <div class="card-front-container card-front-container-right">
+                    <div class="card-image" id="card-image-12" onclick="makeChoice(12, this)">
+                        <img class="choice" src="image/12.png" alt="Right-1">
+                        <p class="choice-text">
+                            Delaying the release, doing more testing and development,
+                            and adjusting the marketing to focus on assistant features like Autopilot.
+                        </p>
+                    </div>
+                    <div class="card-back-container" id="card-back-container-12">
+                        <table class="result-table">
+                            <tr>
+                                <td>Wealth  &nbsp</td>
+                                <td><span style="color: red;">↓</span> </td>
+                            </tr>
+                            <tr>
+                                <td> image  &nbsp </td>
+                                <td><span style="color: red;">↓</span> </td>
+                            </tr>
+                            <tr>
+                                <td> Ethics  &nbsp</td>
+                                <td><span style="color: green;">  ↑ </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <p class="result-text">
+                            Public enthusiasm for purchasing has waned. <br/><br/>
+                            Postponements in release and reduction in features have diminished public approval.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+    <div id="end-wealth" style="display: none;" class="end-container">
+        <p>
+            End 1
+        </p>
+        <p>
+            The company has a good public image and/or ethical standards. However, overly cautious decisions have caused the company to miss out on many competitive opportunities that align with legal and ethical standards. <br> 
+            
+            <hr><br>
+            This is a short demo version. It doesn't determine anything, and some of the choices' outcomes are just my subjective speculation. But I hope this short little game can provoke reflection on AI. <br><br> 
+            
+            The scenes depicted here are all drawn from real controversial news reports. But AI hasn't done anything wrong, nor did it bring disaster. In all events, it's humans who misused AI and made mistakes and brought about negative impacts. <br><br> 
+            
+            That's also why we need ethics. Before laws are enacted, only human moral values can restrain the spread of misconduct. The so-called ethical principles of AI are based on both the inherent values instilled by developers and the subsequent influences from users.
+        </p>
+    </div>
+
+    <div id="end-image" style="display: none;" class="end-container">
+        <p>
+            End 2
+        </p>
+        <p> 
+            The company may have upheld ethical standards and/or achieved profit growth, but maintaining a positive public image remains a challenge. The public neither can nor wishes to delve into the intricacies of the company's actions, leading to increasing distrust towards the company. <br> 
+            
+            <hr><br>
+            This is a short demo version. It doesn't determine anything, and some of the choices' outcomes are just my subjective speculation. But I hope this short little game can provoke reflection on AI. <br><br> 
+            
+            The scenes depicted here are all drawn from real controversial news reports. But AI hasn't done anything wrong, nor did it bring disaster. In all events, it's humans who misused AI and made mistakes and brought about negative impacts. <br><br> 
+            
+            That's also why we need ethics. Before laws are enacted, only human moral values can restrain the spread of misconduct. The so-called ethical principles of AI are based on both the inherent values instilled by developers and the subsequent influences from users.
+        </p>
+    </div>
+
+    <div id="end-ethics" style="display: none;" class="end-container">
+        <p>
+            End 3
+        </p>
+        <p>
+            The company earns substantial profits. However, its excessively lenient AI strategy and lack of responsibility have led the company step on a road of no return.<br> 
+            
+            <hr><br>
+            This is a short demo version. It doesn't determine anything, and some of the choices' outcomes are just my subjective speculation. But I hope this short little game can provoke reflection on AI. <br><br> 
+
+            The scenes depicted here are all drawn from real controversial news reports. But AI hasn't done anything wrong, nor did it bring disaster. In all events, it's humans who misused AI and made mistakes and brought about negative impacts. <br><br> 
+            
+            That's also why we need ethics. Before laws are enacted, only human moral values can restrain the spread of misconduct. The so-called ethical principles of AI are based on both the inherent values instilled by developers and the subsequent influences from users.
+        </p>
+    </div>
+
+    <div id="end-container" style="display: none;" class="end-container">
+        <p>
+            Thank you for playing.
+        </p>
+        <p>
+            This is a short demo version. It doesn't determine anything, and some of the choices' outcomes are just my subjective speculation. But I hope this short little game can provoke reflection on AI. <br><br> 
+            
+            The scenes depicted here are all drawn from real controversial news reports. But AI hasn't done anything wrong, nor did it bring disaster. In all events, it's humans who misused AI and made mistakes and brought about negative impacts. <br><br> 
+            
+            That's also why we need ethics. Before laws are enacted, only human moral values can restrain the spread of misconduct. The so-called ethical principles of AI are based on both the inherent values instilled by developers and the subsequent influences from users.
+        </p>
+    </div>
+
+    <div id="button-container">
+        <button onclick="nextStage()" class="nextStage" style="bottom: 40px; display: none;" id="nextStageButton">Next</button>
+        <button onclick="restart()" class="restartbutton">Restart</button>
+    </div>
+
+    <div id="copyright" style="margin-bottom: -180px;  padding-top: 25px;width: 100%;
+    text-align: center;
+    position: absolute;
+    bottom: 10px;">
+        <p>© 2024 Yvan for BEC. <br> All images were generated by Canva AI. <a href="https://www.canva.com/policies/ai-product-terms/">Their Terms </a><br> All rights reserved.</p>
+    </div>
+
+
+    <script>
+
+        // hide value
+        document.getElementById('wealth-value').style.display = 'none';
+        document.getElementById('image-value').style.display = 'none';
+        document.getElementById('ethics-value').style.display = 'none';
+
+        scenario = [
+            {
+                stageText: "🚗 The company is developing an AI for autonomous driving. In the early promotion, the CEO emphasized Full Self-Driving capability as part of the feature set. But during the testing phase, it was found that this AI performs poorly.",
+                choiceLeft: "Continuing to roll out the AI, and claiming to have Full Self-Driving capability, but quietly enhancing its abilities in subsequent update versions.",
+                choiceRight: "Delaying the release, doing more testing and development, and adjusting the marketing to focus on assistant features like Autopilot.",
+                resultLeft: "Your publicity has given you an advantage in the industry. <br><br> The public sees you as a technological pioneer, although some users feel that your features fall short of expectations.",
+                resultRight: "Public enthusiasm for purchasing has waned. <br><br> Postponements in release and reduction in features have diminished public approval.",
+                scoreChanges: [[10, 0, -5], [-5, -5, 5]],
+                showRessource: "<a href='https://edition.cnn.com/2022/12/12/business/tesla-fsd-autopilot-lawsuit/index.html'>CNN: Tesla: Our ‘failure’ to make actual self-driving cars ‘is not fraud’</a>: ... Even when equipped with a $15,000 technology package that is literally called “Full Self Driving Capability,” a Tesla car can’t actually drive by itself. Now, lawyers for Tesla are arguing that ... that doesn’t mean it perpetuated a fraud, as alleged in a class-action lawsuit ... ",
+            } ,
+            {
+                stageText: "💼 The company is developing AI for conducting initial screening of received resumes. The development team indicated that the model thoroughly considers various aspects of applicants, such as gender, education, skills, etc. It can be put into production use. ",
+                choiceLeft: "Deploying the AI as soon as possible, and promoting it as a tool that can help HR departments save time and resources.",
+                choiceRight: "Conducting more testing and do simultaneous manual checks while deploying for the possible errors.",
+                resultLeft: "The AI has saved time and resources for HR department. <br><br> After some time, the AI was found to exhibit severe gender bias, attributed to the imbalance in the training data.",
+                scoreChanges: [[5, -10, -5], [5, 10, 10]],
+                resultRight: "After more testing and manual checks, the AI became more accurate and fair. <br><br> The AI has saved time and resources for HR department.",
+                showRessource: "<a href='https://www.reuters.com/article/idUSKCN1MK0AG/'>Reuters: Insight - Amazon scraps secret AI recruiting tool that showed bias against women</a>: ...That is because Amazon's computer models were trained to vet applicants by observing patterns in resumes submitted to the company over a 10-year period. Most came from men, a reflection of male dominance across the tech industry..."
+            },
+            {
+                stageText: "📱 The company is developing an AI for a social media platform. The AI can predict the user's preferences and interests, and recommend content accordingly.",
+                choiceLeft: "Deploying the AI without any restrictions, because everyone has the right to see what they want.",
+                choiceRight: "Restricting the AI to show only the content that is more balanced with multiple perspectives.",
+                resultLeft: "The AI has helped users find content they like. <br><br> The AI makes Information Cocoons for every user, and the content they see becomes more and more extreme. <br> But most users are satisfied.",
+                resultRight: "The content is more balanced. <br><br> But some users that refuse to see the other side of the story think the content is boring, some users think that the platform is doing a censorship.",
+                scoreChanges: [[10, 5, -10], [-5, 0, 10]],
+                showRessource: "<a href='https://news.un.org/en/story/2020/12/1080192'>UN News</a>: ... The reason that these companies are happy to 'push' socially divisive, polarizing content to their users, is that it increases the likelihood that they will stay longer on the platform, which keeps their advertisers happy, and boosts their profits ... "
+            },
+            {
+                // 玩家是一名城市政府的AI伦理专家，面对引入人脸识别技术来提高城市安全性的决策。该技术将在公共场所如车站、商场等地方用于监测和识别潜在嫌疑人。然而，该技术引发了隐私权和监控问题。
+                stageText: "👮‍ After a terrorist attack occurred, the city government want to implement facial recognition technology to enhance urban security. This technology will be used in public places such as train stations to identify potential suspects. The company is planning to provide this AI service.",
+                choiceLeft: "This technology is unnecessary. Increasing security measures and deploying more police personnel can address this issue.",
+                choiceRight: "Citizens' safety is a top priority. Provided that the privacy and security of this AI technology are ensured, it should be implemented as soon as possible.",
+                resultLeft: "The government has increased security measures and deployed more police personnel. <br><br> However, some measures, such as queues and checks, have led to widespread complaints among the public.",
+                resultRight: "The residents of this city accept the it and believe it provides security. <br><br> Media continues to promote that it's surveillance and infringes on freedom. As a result, there are still voices of doubt in society.",
+                scoreChanges: [[-10, -5, 5], [-5, -10, 5]],
+                showRessource: "<a href='https://ai-regulation.com/safe-city-project-in-nice-testing-facial-recognition/'>SAFE CITY PROJECT IN NICE: TESTING FACIAL RECOGNITION</a>: ... Like Singapore, Atlanta or London, the city of Nice recently undertook a series of trials using artificial intelligence technologies. It aims to improve 'security' and 'tranquility' ... "
+            },
+            {
+                // 法院正在考虑使用AI来辅助法官做出判决，这可以使案件处理更加高效。
+                stageText: "⚖️ The company want to provide the court an AI program to assist judges in making judgments. The AI is primarily utilized in the courtroom for transcription, translation, and assisting judges. Due to the largely opaque nature of artificial intelligence decisions, some citizens express concerns about the product.",
+                choiceLeft: "In order to safeguard company interests, the software code must remain closed source. However, efforts should be made to explain the relevant principles to the public.",
+                choiceRight: "Open-source a portion of the code to increase transparency of AI decision-making. Release a part of the database sources to demonstrate to the public that the AI's decisions are unbiased.",
+                resultLeft: "The product must remain competitive. <br><br> However, even when the company truthfully explains the principles to the public, the public tends to believe media panic reports.",
+                resultRight: "After open-sourcing a portion of the content, the product loses some competitiveness. <br><br>  However, the public perceives the program design as reasonable and gradually accepts it.",
+                scoreChanges: [[10, -5, 5], [-15, 5, 5]],
+                showRessource: "<a href='https://apnews.com/article/artificial-intelligence-ai-guidance-england-wales-judges-c2ab374237a563d3e4bbbb56876955f7'> APNews: Judges in England and Wales are given cautious approval to use AI in writing legal opinions</a>: ... AI could help write opinions but stressed it shouldn’t be used for research or legal analyses because the technology can fabricate information and provide misleading, inaccurate and biased information ... "
+            },
+            {
+                // 因为全国性的事件，无法对全国的学生进行升学考试，教育部门希望公司提供一个AI程序，基于学生过往的成绩和表现，打出一个评分，作为学生的最终考试成绩 
+                stageText: "🎓 Due to a nationwide event, it's not feasible to conduct nationwide student examinations. The education department wishes for the company to provide an AI program that, based on students' past grades and performance, generates a score to serve as their final exam results.",
+                choiceLeft: "Provide a scoring system based on teacher-predicted grades, estimated rankings, students' past performance, and an assessment of the school's teaching quality.",
+                choiceRight: "This matter is quite extraordinary, as it concerns determining the trajectory of students' lives. AI algorithms should only serve as advisory tools.",
+                resultLeft: "The algorithm's resulting injustice has led to widespread protests. <br><br> A U-turn is made to use teacher estimates for exam results instead.",
+                resultRight: "Teachers, drawing from their understanding of students as well as recommendations from AI algorithms, have assigned appropriate scores to students. <br><br> The majority of people approve of the regulation.",
+                scoreChanges: [[5, -10, -10], [-5, 5, 10]],
+                showRessource: "<a href='https://www.bbc.com/news/education-53787203'> BBC: Why did the A-level algorithm say no?</a>: ... Accusations of unfairness over this year's A-level results in England have focused on an 'algorithm' for deciding results of exams cancelled by the pandemic. ... "
+            },
+            {
+                // 
+                stageText: "📰 A news company receives a video just before the election, purportedly showing one of the candidates making highly inappropriate remarks. The video quickly spreads across social media. However, the company's tech team analyzes the video and discovers that it's a deepfake, created with remarkable realism.",
+                choiceLeft: "The news company decides to further verify the video before reporting it and simultaneously warns the public about the risks of deepfake technology.",
+                choiceRight: "The news company immediately reports the video to gain exclusive news coverage and boost its ratings.",
+                resultLeft: "The company's reputation improved as verifying the video and warning the public demonstrates the company's integrity and sense of responsibility.",
+                resultRight: "User satisfaction decreased as the company could lose trust and support from some viewers due to premature reporting.",
+                scoreChanges: [[-5, 10, 10], [10, -5, -10]],
+                showRessource: "<a href='https://www.dailymail.co.uk/sciencetech/article-13066625/ai-rules-deepfake-victims-taylor-swift.html'> Daily Mail: Experts warn Taylor Swift's nude deepfakes scandal were caused by 'too little, too late' attitude towards AI - as Senate only NOW considers bill to clamp down on problem</a>: ... Researchers have slammed US officials for not rolling out stricter AI rules before popstar Taylor Swift became victim of deepfakes. ... "
+            },
+        ]
+
+
+        stage = 1;
+        totalStages = scenario.length;
+        buttonShow = false; // next stage button
+        clicked = 0;
+
+        // 布置游戏
+        // 在 game-container 中 放入totalStages个div
+        for (let i = 1; i <= totalStages; i++) {
+            const stageDiv = document.createElement('div');
+            stageDiv.id = 'stage-' + i;
+            stageDiv.className = 'stage-box';
+            stageDiv.innerHTML = `
+            <div class="text-box">
+                <p> ` + scenario[i - 1].stageText + `
+                </p>
+            </div>
+            <div class="big-card-container">
+                <div class="card-front-container card-front-container-left">
+                    <div class="card-image" id="card-image-` + i + 1 + `" onclick="makeChoice(` + i + 1 + `, this)">
+                        <img class="choice" src="image/` + i + 1 + `.png" alt="Left-1">
+                        <p class="choice-text">
+                            ` + scenario[i - 1].choiceLeft + `
+                        </p>
+                    </div>
+                    <div class="card-back-container" id="card-back-container-` + i + 1 + `">
+                        
+                        <table class="result-table">
+                            <tr>
+                                <td>Wealth  &nbsp</td>
+                                <td> ` + getArrow(scenario[i - 1].scoreChanges[0][0]) + ` </td>
+                            </tr>
+                            <tr>
+                                <td> Image  &nbsp </td>
+                                <td> ` + getArrow(scenario[i - 1].scoreChanges[0][1]) + ` </td>
+                            </tr>
+                            <tr>
+                                <td> Ethics  &nbsp</td>
+                                <td> ` + getArrow(scenario[i - 1].scoreChanges[0][2]) + ` </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <p class="result-text">
+                            ` + scenario[i - 1].resultLeft + `
+                        </p>
+                    </div>
+                </div>
+                <div class="card-front-container card-front-container-right">
+                    <div class="card-image
+                    " id="card-image-` + i + 2 + `" onclick="makeChoice(` + i + 2 + `, this)">
+                        <img class="choice" src="image/` + i + 2 + `.png" alt="Right-1">
+                        <p class="choice-text">
+                            ` + scenario[i - 1].choiceRight + `
+                        </p>
+                    </div>
+                    <div class="card-back-container" id="card-back-container-` + i + 2 + `">
+                        <table class="result-table">
+                            <tr>
+                                <td>Wealth  &nbsp</td>
+                                <td> ` + getArrow(scenario[i - 1].scoreChanges[1][0]) + ` </td>
+                            </tr>
+                            <tr>
+                                <td> Image  &nbsp </td>
+                                <td> ` + getArrow(scenario[i - 1].scoreChanges[1][1]) + ` </td>
+                            </tr>
+                            <tr>
+                                <td> Ethics  &nbsp</td>
+                                <td> ` + getArrow(scenario[i - 1].scoreChanges[1][2]) + ` </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <p class="result-text">
+                            ` + scenario[i - 1].resultRight + `
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <p id="resources-`+ i + `" style="position: absolute; top:500px;width: 100%; justify-content: center;font-size:12px;display:none;">
+                ` + scenario[i - 1].showRessource + `
+            </p>
+        `;
+            document.getElementById('game-container').appendChild(stageDiv);
+        }
+
+        function getArrow(score){
+            switch (score) {
+                case -15:
+                case -10:
+                    return '<span style="color: red;">↓↓</span>';
+                case -5:
+                    return '<span style="color: red;">↓</span>';
+                case 0:
+                    return '<span style="color: rgb(123, 123, 25);"> -</span>';
+                case 5:
+                    return '<span style="color: green;">↑</span>';
+                case 10:
+                    return '<span style="color: green;">↑↑</span>';
+                default:
+                    return '<span style="color: rgb(123, 123, 25);"> -</span>';
+            }
+        }
+
+
+        function makeChoice(direction, element) {
+            clicked = direction;
+            element.style.transform = 'rotateY(180deg)';
+            // hide image, show text
+            document.getElementById('card-back-container-' + direction).style.display = 'block';
+            document.getElementById('card-image-' + direction).style.display = 'none';
+            // disable other choice
+            const otherDirection = direction % 2 === 1 ? direction + 1 : direction - 1;
+            document.getElementById('card-image-' + otherDirection).style.pointerEvents = 'none';
+
+            document.getElementById('resources-' + stage).style.display = 'block';
+
+            // get first digit of direction
+            const firstDigit = Math.floor(direction / 10) - 1;
+            const secondDigit = direction % 10 - 1;
+            const a = scenario[firstDigit].scoreChanges[secondDigit][0];
+            const b = scenario[firstDigit].scoreChanges[secondDigit][1];
+            const c = scenario[firstDigit].scoreChanges[secondDigit][2];
+            updateStats(a*2,b*2,c*2);
+        }
+
+        function checkStats(){
+            const stats = {
+                wealth: document.getElementById('wealth-value').innerText ,
+                ethics: document.getElementById('ethics-value').innerText ,
+                image: document.getElementById('image-value').innerText 
+            };
+            for (const key in stats) {
+                if (stats.hasOwnProperty(key)) {
+                    const value = parseInt(stats[key]);
+                    if (value <= 0) {
+                        console.log(`${key} is less than or equal to 0.`);
+                        switch (key) {
+                            case 'wealth':
+                                stage = -1;
+                                break;
+                            case 'ethics':
+                                stage = -3;
+                                break;
+                            case 'image':
+                                stage = -2;
+                                break;
+                        }
+                        changeStage(stage);
+                    }
+                }
+            } 
+        }
+
+
+        function updateStats(x, y, z) {
+            const stats = {
+                wealth: { meter: document.getElementById('wealth-meter'), value: document.getElementById('wealth-value') },
+                image: { meter: document.getElementById('image-meter'), value: document.getElementById('image-value') },
+                ethics: { meter: document.getElementById('ethics-meter'), value: document.getElementById('ethics-value') }
+            };
+
+            const changes = [x, y, z];
+
+            Object.keys(stats).forEach(key => {
+                const meter = stats[key].meter;
+                const value = stats[key].value;
+                const newValue = Math.min(Math.max(parseFloat(meter.value) + changes.shift(), 0), 100);
+
+                meter.value = newValue;
+                value.innerText = newValue;
+            });
+
+            // stage += 1;
+            // changeStage(stage);
+            buttonShow = true;
+            document.querySelector('.nextStage').style.display = 'block';
+            saveGameState();
+        }
+
+
+        function nextStage() {
+            stage += 1;
+            changeStage(stage);
+            buttonShow = false;
+            document.querySelector('.nextStage').style.display = 'none';
+            checkStats();
+            saveGameState();
+        }
+
+
+        function changeStage(stage) {
+            for (let i = 1; i <= totalStages; i++) {
+                if (document.getElementById('stage-' + i)) {
+                    if (i === stage) {
+                        document.getElementById('stage-' + i).style.display = 'block';
+                        // console.log('stage-' + i + ' is displayed');
+                    } else {
+                        document.getElementById('stage-' + i).style.display = 'none';
+                        // console.log('stage-' + i + ' is hidden');
+                    }
+                }
+            }
+            if (stage >= totalStages+1){
+                document.getElementById('game-container').style.display = 'none';
+                document.getElementById('end-container').style.display = 'block';
+            }
+            if (stage < 0){
+                switch (stage) {
+                    case -1:
+                        key =  'wealth';
+                        break;
+                    case -2:
+                        key = 'image';
+                        break;
+                    case -3:
+                        key = 'ethics';
+                        break;
+                }
+                document.getElementById('game-container').style.display = 'none';
+                document.getElementById('end-'+key).style.display = 'block';
+            }
+        }
+
+
+        function saveGameState() {
+            const gameState = Array.from(document.querySelectorAll('meter')).map(meter => parseFloat(meter.value));
+            localStorage.setItem('gameStage', JSON.stringify(stage));
+            localStorage.setItem('buttonShow', JSON.stringify(buttonShow));
+            localStorage.setItem('gameState', JSON.stringify(gameState));
+            localStorage.setItem('clicked', JSON.stringify(clicked));
+        }
+
+        function loadGameState() {
+            const gameState = JSON.parse(localStorage.getItem('gameState'));
+            if (gameState) {
+                Array.from(document.querySelectorAll('meter')).forEach((meter, index) => {
+                    meter.value = gameState[index];
+                });
+            }
+            const gameStage = JSON.parse(localStorage.getItem('gameStage'));
+            if (gameStage) {
+                stage = gameStage;
+                changeStage(stage);
+            }
+            // console.log(stage);
+            const buttonShow_ = JSON.parse(localStorage.getItem('buttonShow'));
+            if (buttonShow_) {
+                document.querySelector('.nextStage').style.display = 'block';
+                buttonShow = true;
+            }
+            const clicked_ = JSON.parse(localStorage.getItem('clicked'));
+            if (clicked_) {
+                clicked = clicked_;
+                document.getElementById('card-back-container-' + clicked).style.display = 'block';
+                document.getElementById('resources-' + stage).style.display = 'block';
+                document.getElementById('card-image-' + clicked).style.display = 'none';
+                const otherDirection = clicked % 2 === 1 ? clicked + 1 : clicked - 1;
+                document.getElementById('card-image-' + otherDirection).style.pointerEvents = 'none';
+
+            }
+        }
+
+
+        function restart() {
+            // if (!confirm('Restart?')) {
+            //     return;
+            // }
+            localStorage.clear();
+            location.reload();
+        }
+
+        loadGameState();
+        changeStage(stage);
+        saveGameState();
+
+
+    </script>
+</body>
+
+</html>
