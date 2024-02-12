@@ -690,31 +690,31 @@
 
         function saveGameState() {
             const gameState = Array.from(document.querySelectorAll('meter')).map(meter => parseFloat(meter.value));
-            localStorage.setItem('gameStage', JSON.stringify(stage));
-            localStorage.setItem('buttonShow', JSON.stringify(buttonShow));
-            localStorage.setItem('gameState', JSON.stringify(gameState));
-            localStorage.setItem('clicked', JSON.stringify(clicked));
+            sessionStorage.setItem('gameStage', JSON.stringify(stage));
+            sessionStorage.setItem('buttonShow', JSON.stringify(buttonShow));
+            sessionStorage.setItem('gameState', JSON.stringify(gameState));
+            sessionStorage.setItem('clicked', JSON.stringify(clicked));
         }
 
         function loadGameState() {
-            const gameState = JSON.parse(localStorage.getItem('gameState'));
+            const gameState = JSON.parse(sessionStorage.getItem('gameState'));
             if (gameState) {
                 Array.from(document.querySelectorAll('meter')).forEach((meter, index) => {
                     meter.value = gameState[index];
                 });
             }
-            const gameStage = JSON.parse(localStorage.getItem('gameStage'));
+            const gameStage = JSON.parse(sessionStorage.getItem('gameStage'));
             if (gameStage) {
                 stage = gameStage;
                 changeStage(stage);
             }
             // console.log(stage);
-            const buttonShow_ = JSON.parse(localStorage.getItem('buttonShow'));
+            const buttonShow_ = JSON.parse(sessionStorage.getItem('buttonShow'));
             if (buttonShow_) {
                 document.querySelector('.nextStage').style.display = 'block';
                 buttonShow = true;
             }
-            const clicked_ = JSON.parse(localStorage.getItem('clicked'));
+            const clicked_ = JSON.parse(sessionStorage.getItem('clicked'));
             if (clicked_) {
                 clicked = clicked_;
                 document.getElementById('card-back-container-' + clicked).style.display = 'block';
@@ -731,7 +731,7 @@
             // if (!confirm('Restart?')) {
             //     return;
             // }
-            localStorage.clear();
+            sessionStorage.clear();
             location.reload();
         }
 
