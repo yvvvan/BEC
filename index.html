@@ -93,7 +93,6 @@
         }
 
         .card-front-container-left {
-            /* position: relative; */
             display: inline-block;
             position: absolute;
             left: 10px;
@@ -102,7 +101,6 @@
         }
 
         .card-front-container-right {
-            /* position: relative; */
             display: inline-block;
             position: absolute;
             right: 10px;
@@ -114,15 +112,12 @@
             background-color: aquamarine;
             width: 100%;
             height: 100%;
-            /*超过的部分隐藏*/
             overflow: hidden;
-            /*居中图片*/
             display: flex;
             justify-content: center;
         }
 
         img {
-            /* width: 100%; */
             height: 100%;
             padding: 0;
             margin: 0 !important;
@@ -130,28 +125,22 @@
 
         .card-back-container {
             transform: translate(-50%, -50%);
-            /* 在当前div中居中显示文本 */
             position: absolute;
             top: 50%;
             left: 50%;
             display: none;
-            /*浅棕色*/
             background-color: #f4f4f4;
             width: 100%;
             height: 100%;
         }
 
         .choice-text {
-            /* 在当前div的底部 */
             position: absolute;
             bottom: 0;
             padding: 0 5px;
-            /* 两端对齐 */
             text-align: justify;
             font-size: 15px;
-            /*背景 灰色半透明*/
             background-color: rgba(255, 255, 255, 0.8);
-            /*加粗*/
             font-weight: bold;
         }
 
@@ -201,7 +190,7 @@
                 <td><span id="wealth-value">50</span></td>
             </tr>
             <tr>
-                <!-- <td>image:</td> -->
+                <!-- <td>Image:</td> -->
                 <td>
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users-group" width="30"
                         height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
@@ -240,78 +229,6 @@
     </div>
 
     <div id="game-container" class="game-container">
-        <!-- <div id="stage-1" class="stage-box">
-            <div class="text-box">
-                <p> The company is developing an AI for autonomous driving. 
-                    In the early promotion, the CEO emphasized Full Self-Driving capability as part of the feature set. 
-                    But during the testing phase, it was found that this AI performs poorly.
-                </p>
-            </div>
-            <div class="big-card-container">
-                <div class="card-front-container card-front-container-left">
-                    <div class="card-image" id="card-image-11" onclick="makeChoice(11, this)">
-                        <img class="choice" src="image/11.png" alt="Left-1">
-                        <p class="choice-text">
-                            Continuing to roll out the AI, and claiming to have Full Self-Driving capability, 
-                            but quietly enhancing its abilities in subsequent update versions.
-                        </p>
-                    </div>
-                    <div class="card-back-container" id="card-back-container-11">
-                        
-                        <table class="result-table">
-                            <tr>
-                                <td>Wealth  &nbsp</td>
-                                <td><span style="color: green;">↑↑</span> </td>
-                            </tr>
-                            <tr>
-                                <td> image  &nbsp </td>
-                                <td><span style="color: rgb(123, 123, 25);"> -</span> </td>
-                            </tr>
-                            <tr>
-                                <td> Ethics  &nbsp</td>
-                                <td><span style="color: red;">  ↓ </td>
-                            </tr>
-                        </table>
-                        <br/>
-                        <p class="result-text">
-                            Your publicity has given you an advantage in the industry. <br/><br/>
-                            The public sees you as a technological pioneer, 
-                            although some users feel that your features fall short of expectations.
-                        </p>
-                    </div>
-                </div>
-                <div class="card-front-container card-front-container-right">
-                    <div class="card-image" id="card-image-12" onclick="makeChoice(12, this)">
-                        <img class="choice" src="image/12.png" alt="Right-1">
-                        <p class="choice-text">
-                            Delaying the release, doing more testing and development,
-                            and adjusting the marketing to focus on assistant features like Autopilot.
-                        </p>
-                    </div>
-                    <div class="card-back-container" id="card-back-container-12">
-                        <table class="result-table">
-                            <tr>
-                                <td>Wealth  &nbsp</td>
-                                <td><span style="color: red;">↓</span> </td>
-                            </tr>
-                            <tr>
-                                <td> image  &nbsp </td>
-                                <td><span style="color: red;">↓</span> </td>
-                            </tr>
-                            <tr>
-                                <td> Ethics  &nbsp</td>
-                                <td><span style="color: green;">  ↑ </td>
-                            </tr>
-                        </table>
-                        <br/>
-                        <p class="result-text">
-                            Public enthusiasm for purchasing has waned. <br/><br/>
-                            Postponements in release and reduction in features have diminished public approval.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </div>
 
     <div id="end-wealth" style="display: none;" class="end-container">
@@ -424,7 +341,6 @@
                 showRessource: "<a href='https://news.un.org/en/story/2020/12/1080192'>UN News</a>: ... The reason that these companies are happy to 'push' socially divisive, polarizing content to their users, is that it increases the likelihood that they will stay longer on the platform, which keeps their advertisers happy, and boosts their profits ... "
             },
             {
-                // 玩家是一名城市政府的AI伦理专家，面对引入人脸识别技术来提高城市安全性的决策。该技术将在公共场所如车站、商场等地方用于监测和识别潜在嫌疑人。然而，该技术引发了隐私权和监控问题。
                 stageText: "👮‍ After a terrorist attack occurred, the city government want to implement facial recognition technology to enhance urban security. This technology will be used in public places such as train stations to identify potential suspects. The company is planning to provide this AI service.",
                 choiceLeft: "This technology is unnecessary. Increasing security measures and deploying more police personnel can address this issue.",
                 choiceRight: "Citizens' safety is a top priority. Provided that the privacy and security of this AI technology are ensured, it should be implemented as soon as possible.",
@@ -434,7 +350,6 @@
                 showRessource: "<a href='https://ai-regulation.com/safe-city-project-in-nice-testing-facial-recognition/'>SAFE CITY PROJECT IN NICE: TESTING FACIAL RECOGNITION</a>: ... Like Singapore, Atlanta or London, the city of Nice recently undertook a series of trials using artificial intelligence technologies. It aims to improve 'security' and 'tranquility' ... "
             },
             {
-                // 法院正在考虑使用AI来辅助法官做出判决，这可以使案件处理更加高效。
                 stageText: "⚖️ The company want to provide the court an AI program to assist judges in making judgments. The AI is primarily utilized in the courtroom for transcription, translation, and assisting judges. Due to the largely opaque nature of artificial intelligence decisions, some citizens express concerns about the product.",
                 choiceLeft: "In order to safeguard company interests, the software code must remain closed source. However, efforts should be made to explain the relevant principles to the public.",
                 choiceRight: "Open-source a portion of the code to increase transparency of AI decision-making. Release a part of the database sources to demonstrate to the public that the AI's decisions are unbiased.",
@@ -444,7 +359,6 @@
                 showRessource: "<a href='https://apnews.com/article/artificial-intelligence-ai-guidance-england-wales-judges-c2ab374237a563d3e4bbbb56876955f7'> APNews: Judges in England and Wales are given cautious approval to use AI in writing legal opinions</a>: ... AI could help write opinions but stressed it shouldn’t be used for research or legal analyses because the technology can fabricate information and provide misleading, inaccurate and biased information ... "
             },
             {
-                // 因为全国性的事件，无法对全国的学生进行升学考试，教育部门希望公司提供一个AI程序，基于学生过往的成绩和表现，打出一个评分，作为学生的最终考试成绩 
                 stageText: "🎓 Due to a nationwide event, it's not feasible to conduct nationwide student examinations. The education department wishes for the company to provide an AI program that, based on students' past grades and performance, generates a score to serve as their final exam results.",
                 choiceLeft: "Provide a scoring system based on teacher-predicted grades, estimated rankings, students' past performance, and an assessment of the school's teaching quality.",
                 choiceRight: "This matter is quite extraordinary, as it concerns determining the trajectory of students' lives. AI algorithms should only serve as advisory tools.",
@@ -567,17 +481,13 @@
             }
         }
 
-
         function makeChoice(direction, element) {
             clicked = direction;
             element.style.transform = 'rotateY(180deg)';
-            // hide image, show text
             document.getElementById('card-back-container-' + direction).style.display = 'block';
             document.getElementById('card-image-' + direction).style.display = 'none';
-            // disable other choice
             const otherDirection = direction % 2 === 1 ? direction + 1 : direction - 1;
             document.getElementById('card-image-' + otherDirection).style.pointerEvents = 'none';
-
             document.getElementById('resources-' + stage).style.display = 'block';
 
             // get first digit of direction
@@ -617,7 +527,6 @@
             } 
         }
 
-
         function updateStats(x, y, z) {
             const stats = {
                 wealth: { meter: document.getElementById('wealth-meter'), value: document.getElementById('wealth-value') },
@@ -636,13 +545,10 @@
                 value.innerText = newValue;
             });
 
-            // stage += 1;
-            // changeStage(stage);
             buttonShow = true;
             document.querySelector('.nextStage').style.display = 'block';
             saveGameState();
         }
-
 
         function nextStage() {
             stage += 1;
@@ -652,7 +558,6 @@
             checkStats();
             saveGameState();
         }
-
 
         function changeStage(stage) {
             for (let i = 1; i <= totalStages; i++) {
@@ -686,7 +591,6 @@
                 document.getElementById('end-'+key).style.display = 'block';
             }
         }
-
 
         function saveGameState() {
             const gameState = Array.from(document.querySelectorAll('meter')).map(meter => parseFloat(meter.value));
@@ -750,7 +654,6 @@
         loadGameState();
         changeStage(stage);
         saveGameState();
-
 
     </script>
 </body>
