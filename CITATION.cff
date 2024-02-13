@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Dong"
+  given-names: "Yvan"
+  orcid: "https://orcid.org/0009-0001-9036-3889"
+title: "BEC-Exhibition Project - A small Ethics Games"
+version: 1.0.0
+date-released: 2024-02-13
+url: "https://github.com/yvvvan/BEC"
